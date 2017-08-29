@@ -6,11 +6,13 @@ import Home from './components/home/Home.vue'
 export const routes = [{
     path: '/',
     component: Login,
-    titulo: 'Login'
+    titulo: 'Login',
+    icone: 'fa-lock'
   },
   {
     path: '/home',
     component: Home,
-    titulo: 'Home'
+    titulo: 'Home',
+    icone: 'fa-home'
   }
 ];

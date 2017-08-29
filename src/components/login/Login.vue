@@ -1,6 +1,31 @@
 <template>
     <div>
-        <h1>{{ titulo }}</h1>
+        <!-- <h1>{{ titulo }}</h1> -->
+        <v-toolbar dark class="teal elevation-0" extended>
+        </v-toolbar>
+        <v-layout row>
+            <v-flex xs10 offset-xs1 sm6 offset-sm3 lg4 offset-lg4>
+                <v-card class="card--flex-toolbar white">
+                    <v-card-text>
+                        <div xs8 offset-xs2 sm6 offset-sm3 lg4 offset-lg4 class="text-xs-center text-sm-center text-lg-center">
+                            <img src="../../assets/img/logo.png" alt="Logo Horus Homecare" />
+                        </div>
+                        <div class="text-xs-center my-3">
+                            <h4 class="teal--text">{{ appName }}</h4>
+                        </div>
+                        <div v-for="botao in botoesLogin">
+                            <v-btn :class="botao.cor" class="white--text" large block>
+                                <v-icon left>{{ botao.icone }}</v-icon>
+                                Login com {{ botao.nome }}
+                            </v-btn>
+                        </div>
+                    </v-card-text>
+                </v-card>
+                <div class="text-xs-center grey--text text--lighten-1 mt-3">
+                    <p>© {{ new Date().getFullYear() }} | {{ appName }}</p>
+                </div>
+            </v-flex>
+        </v-layout>
     </div>
 </template>
 
@@ -8,12 +33,27 @@
 export default {
     data() {
         return {
-            titulo: 'Login'
+            titulo: 'Login',
+            appName: 'Horus Homecare',
+            botoesLogin: [
+                {
+                    nome: 'Google',
+                    icone: 'fa-google',
+                    cor: 'red',
+                },
+                {
+                    nome: 'Facebook',
+                    icone: 'fa-facebook-official',
+                    cor: 'blue darken-3',
+                }
+            ]
         }
     }
 }
 </script>
 
 <style scoped>
-
+.card--flex-toolbar {
+    margin-top: -64px;
+}
 </style>
