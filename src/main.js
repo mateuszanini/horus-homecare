@@ -14,6 +14,9 @@ const router = new VueRouter({
 
 // CSS
 import ('../node_modules/vuetify/dist/vuetify.min.css') // utilizar css-loader (npm install --save-dev css-loader)
+import ('../node_modules/font-awesome/css/font-awesome.css') //font awesome
+import ('../static/fonts/roboto-material-icons.css') //roboto font + material icon
+
 import Vuetify from 'vuetify' 
 Vue.use(Vuetify)
 

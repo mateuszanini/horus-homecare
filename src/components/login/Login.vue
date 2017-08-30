@@ -8,17 +8,18 @@
                 <v-card class="card--flex-toolbar white">
                     <v-card-text>
                         <div xs8 offset-xs2 sm6 offset-sm3 lg4 offset-lg4 class="text-xs-center text-sm-center text-lg-center">
-                            <img src="../../assets/img/logo.png" alt="Logo Horus Homecare" />
+                            <img src="../../../static/img/icons/icon-128x128.png" alt="Logo Horus Homecare" />
                         </div>
                         <div class="text-xs-center my-3">
                             <h4 class="teal--text">{{ appName }}</h4>
                         </div>
-                        <div v-for="botao in botoesLogin">
+                        <!-- <div v-for="botao in botoesLogin">
                             <v-btn :class="botao.cor" class="white--text" large block>
                                 <v-icon left>{{ botao.icone }}</v-icon>
                                 Login com {{ botao.nome }}
                             </v-btn>
-                        </div>
+                        </div> -->
+                        <botao-login :botao="botoesLogin"></botao-login>
                     </v-card-text>
                 </v-card>
                 <div class="text-xs-center grey--text text--lighten-1 mt-3">
@@ -30,7 +31,12 @@
 </template>
 
 <script>
+import BotaoLogin from '../../components/shared/botao/BotaoLogin.vue'
+
 export default {
+    components: {
+        'botao-login': BotaoLogin
+    },
     data() {
         return {
             titulo: 'Login',
