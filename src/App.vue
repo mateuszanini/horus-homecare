@@ -1,16 +1,16 @@
 <template>
     <div id="app">
         <!-- <nav>
-                <ul>
-                    <li v-for="route in routes">
-                        <router-link :to="route.path ? route.path : '/'">
-                            <v-icon left>{{ route.icone }}</v-icon>
-                            {{ route.titulo }}
-                        </router-link>
-                    </li>
+                        <ul>
+                            <li v-for="route in routes">
+                                <router-link :to="route.path ? route.path : '/'">
+                                    <v-icon left>{{ route.icone }}</v-icon>
+                                    {{ route.titulo }}
+                                </router-link>
+                            </li>
 
-                </ul>
-            </nav> -->
+                        </ul>
+                    </nav> -->
         <router-view></router-view>
     </div>
 </template>

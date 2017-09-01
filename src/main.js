@@ -8,7 +8,7 @@ import {
 } from './routes';
 Vue.use(VueRouter)
 const router = new VueRouter({
-  routes: routes, 
+  routes: routes,
   //mode: 'history' // para remover o # da URL
 });
 
@@ -20,6 +20,23 @@ import ('../static/fonts/roboto-material-icons.css') //roboto font + material ic
 import Vuetify from 'vuetify' 
 Vue.use(Vuetify)
 
+//Firebase + VueFire
+// import VueFire from 'vuefire'
+// Vue.use(VueFire)
+// import Firebase from 'firebase'
+// let config = {
+//     apiKey: "AIzaSyBjFaCO0s-wcr34t-PN5pdMg5uPQ-Iqu4A",
+//     authDomain: "horus-homecare.firebaseapp.com",
+//     databaseURL: "https://horus-homecare.firebaseio.com",
+//     projectId: "horus-homecare",
+//     storageBucket: "horus-homecare.appspot.com",
+//     messagingSenderId: "114846124020"
+//   };
+// let app = Firebase.initializeApp(config)
+// let db = app.database()
+
+import * as firebase from 'firebase'
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -28,5 +45,18 @@ new Vue({
   render: h => h(App),
   components: {
     App
+  },
+  created() {
+    firebase.initializeApp({
+      apiKey: "AIzaSyBjFaCO0s-wcr34t-PN5pdMg5uPQ-Iqu4A",
+      authDomain: "horus-homecare.firebaseapp.com",
+      databaseURL: "https://horus-homecare.firebaseio.com",
+      projectId: "horus-homecare",
+      storageBucket: "horus-homecare.appspot.com",
+      messagingSenderId: "114846124020"
+    })
+    if (localStorage.getItem('user')) {
+        this.$router.push('/home')
+    }
   }
 })

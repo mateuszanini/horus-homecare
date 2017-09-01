@@ -14,11 +14,11 @@
                             <h4 class="teal--text">{{ appName }}</h4>
                         </div>
                         <!-- <div v-for="botao in botoesLogin">
-                            <v-btn :class="botao.cor" class="white--text" large block>
-                                <v-icon left>{{ botao.icone }}</v-icon>
-                                Login com {{ botao.nome }}
-                            </v-btn>
-                        </div> -->
+                                    <v-btn :class="botao.cor" class="white--text" large block>
+                                        <v-icon left>{{ botao.icone }}</v-icon>
+                                        Login com {{ botao.nome }}
+                                    </v-btn>
+                                </div> -->
                         <botao-login :botao="botoesLogin"></botao-login>
                     </v-card-text>
                 </v-card>
@@ -32,6 +32,7 @@
 
 <script>
 import BotaoLogin from '../../components/shared/botao/BotaoLogin.vue'
+import * as firebase from 'firebase'
 
 export default {
     components: {
@@ -45,13 +46,13 @@ export default {
                 {
                     nome: 'Google',
                     icone: 'fa-google',
-                    cor: 'red',
+                    cor: 'red'
                 },
-                {
-                    nome: 'Facebook',
-                    icone: 'fa-facebook-official',
-                    cor: 'blue darken-3',
-                }
+                // {
+                //     nome: 'Facebook',
+                //     icone: 'fa-facebook-official',
+                //     cor: 'blue darken-3',
+                // }
             ]
         }
     }
