@@ -2,21 +2,20 @@ import Vue from 'vue'
 import App from './App'
 
 // Rotas
-import VueRouter from 'vue-router'
 import {
   routes
 } from './routes';
-Vue.use(VueRouter)
-const router = new VueRouter({
-  routes: routes,
-  //mode: 'history' // para remover o # da URL
-});
+
+//Vuex
+import {
+  store
+} from './store';
 
 // CSS
 import ('../node_modules/vuetify/dist/vuetify.min.css') // utilizar css-loader (npm install --save-dev css-loader)
 import ('../node_modules/font-awesome/css/font-awesome.css') //font awesome
 import ('../static/fonts/roboto-material-icons.css') //roboto font + material icon
-
+//Vuetify
 import Vuetify from 'vuetify' 
 Vue.use(Vuetify)
 
@@ -41,7 +40,8 @@ Vue.config.productionTip = false
 
 new Vue({
   el: '#app',
-  router: router,
+  router: routes,
+  store: store,
   render: h => h(App),
   components: {
     App

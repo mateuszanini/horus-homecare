@@ -23,7 +23,7 @@
                     </v-card-text>
                 </v-card>
                 <div class="text-xs-center grey--text text--lighten-1 mt-3">
-                    <p>© {{ new Date().getFullYear() }} | {{ appName }}</p>
+                    <p>© {{ new Date().getFullYear() }} | {{ appName }}{{ usuario }}</p>
                 </div>
             </v-flex>
         </v-layout>
@@ -53,7 +53,8 @@ export default {
                 //     icone: 'fa-facebook-official',
                 //     cor: 'blue darken-3',
                 // }
-            ]
+            ],
+            usuario: this.$store.getters.usuario
         }
     }
 }
