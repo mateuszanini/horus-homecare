@@ -1,8 +1,7 @@
 <template>
     <div>
-        <!-- <h1>{{ titulo }}</h1> -->
         <v-toolbar dark class="teal elevation-0" extended>
-        </v-toolbar>
+        </v-toolbar>        
         <v-layout row>
             <v-flex xs10 offset-xs1 sm6 offset-sm3 lg4 offset-lg4>
                 <v-card class="card--flex-toolbar white">
@@ -13,30 +12,28 @@
                         <div class="text-xs-center my-3">
                             <h4 class="teal--text">{{ appName }}</h4>
                         </div>
-                        <!-- <div v-for="botao in botoesLogin">
-                                    <v-btn :class="botao.cor" class="white--text" large block>
-                                        <v-icon left>{{ botao.icone }}</v-icon>
-                                        Login com {{ botao.nome }}
-                                    </v-btn>
-                                </div> -->
                         <botao-login :botao="botoesLogin"></botao-login>
                     </v-card-text>
                 </v-card>
                 <div class="text-xs-center grey--text text--lighten-1 mt-3">
-                    <p>© {{ new Date().getFullYear() }} | {{ appName }}{{ usuario }}</p>
+                    <p>© {{ new Date().getFullYear() }} | {{ appName }}</p>
                 </div>
             </v-flex>
+        </v-layout>
+        <v-layout row v-if="loading">
+            <tela-loading></tela-loading>
         </v-layout>
     </div>
 </template>
 
 <script>
 import BotaoLogin from '../../components/shared/botao/BotaoLogin.vue'
-import * as firebase from 'firebase'
+import TelaLoading from '../../components/shared/loading/TelaLoading.vue'
 
 export default {
     components: {
-        'botao-login': BotaoLogin
+        'botao-login': BotaoLogin,
+        'tela-loading': TelaLoading
     },
     data() {
         return {
@@ -53,10 +50,27 @@ export default {
                 //     icone: 'fa-facebook-official',
                 //     cor: 'blue darken-3',
                 // }
-            ],
-            usuario: this.$store.getters.usuario
+            ]
         }
-    }
+    },
+    computed: {
+        user() {
+            return this.$store.getters.user
+        },
+        error() {
+            return this.$store.getters.error
+        },
+        loading() {
+            return this.$store.getters.loading
+        }
+    },
+    watch: {
+        user(value) {
+            if (value !== null && value !== undefined) {
+                this.$router.push('/home')
+            }
+        }
+    },
 }
 </script>
 

@@ -18,7 +18,7 @@
             </v-list>
             <v-list class="pt-0" dense>
                 <v-divider></v-divider>
-                <v-list-tile @click.native="sair">
+                <v-list-tile @click.native="onLogout">
                     <v-list-tile-action>
                         <v-icon>fa-power-off</v-icon>
                     </v-list-tile-action>
@@ -58,14 +58,22 @@ export default {
             right: null
         }
     },
-    methods: {
-        sair() {
-            firebase.auth().signOut().then(function() {
-                localStorage.removeItem('user')
-            }).catch(function(error) {
-                 console.log("Algo deu errado - Sair " + error)
-            });
+    computed: {
+        userIsAuthenticated() {
+            return this.$store.getters.user !== null && this.$store.getters.user !== undefined
         }
+    },
+    methods: {
+        onLogout() {
+            this.$store.dispatch('logout')
+        },
+        // sair() {
+        //     firebase.auth().signOut().then(function() {
+        //         localStorage.removeItem('user')
+        //     }).catch(function(error) {
+        //         console.log("Algo deu errado - Sair " + error)
+        //     });
+        // }
     }
 }
 </script>
