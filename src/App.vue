@@ -16,13 +16,10 @@
 </template>
 
 <script>
-import { routes } from './routes.js'
-
 export default {
     name: 'app',
     data() {
         return {
-            routes: routes
         }
     }
 }
