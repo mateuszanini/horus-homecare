@@ -6,14 +6,15 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    user: localStorage.getItem('user'),
+    user: JSON.parse(localStorage.getItem('user')),
     loading: false,
     error: null
   },
+
   mutations: {
     setUser(state, payload) {
-      state.user = payload
       localStorage.setItem('user', JSON.stringify(payload))
+      state.user = JSON.parse(localStorage.getItem('user'))
     },
     setLoading(state, payload) {
       state.loading = payload
@@ -25,9 +26,12 @@ export const store = new Vuex.Store({
       state.error = null
     }
   },
+
   actions: {
-    userIsAuthenticated(getters) {
-        return getters.user !== null && getters.user !== undefined
+    userIsAuthenticated({
+      getters
+    }) {
+      return getters.user !== null && getters.user !== undefined
     },
     signUserIn({
       commit
@@ -58,16 +62,20 @@ export const store = new Vuex.Store({
           }
         )
     },
-    autoSignIn({
-      commit
-    }, payload) {
-      commit('setUser', {user})
-    },
+    // autoSignIn({
+    //   commit
+    // }, payload) {
+    //   commit('setUser', {
+    //     user
+    //   })
+    // },
     logout({
       commit
     }) {
+      commit('setLoading', true)
       firebase.auth().signOut()
       commit('setUser', null)
+      commit('setLoading', false)
     },
     clearError({
       commit

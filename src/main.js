@@ -36,17 +36,18 @@ new Vue({
       storageBucket: "horus-homecare.appspot.com",
       messagingSenderId: "114846124020"
     })
-    if(this.$store.dispatch('userIsAuthenticated')){
-      this.$router.push('/home')
-    }
-    // firebase.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     this.$store.dispatch('autoSignIn', user)
-    //   }
-    // })
-    // this.$store.dispatch('loadMeetups')
-    // if (this.$store.getters.user) {
-    //   this.$router.push('/home')
-    // }
+
+    this.$store.dispatch('userIsAuthenticated').then(
+      result => {
+        if (result) {
+          this.$router.push('/home')
+        } else {
+          this.$router.push('/')
+        }
+      })
+
+    var app = document.createElement('div')
+    app.setAttribute('data-app', true)
+    document.body.appendChild(app)
   }
 })

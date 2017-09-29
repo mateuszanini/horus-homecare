@@ -21,7 +21,21 @@ export default {
     data() {
         return {
         }
-    }
+    },
+    computed: {
+        user() {
+            return this.$store.getters.user
+        }
+    },
+    watch: {
+        user(value) {
+            if (value !== null && value !== undefined) {
+                this.$router.push('/home')
+            }else{
+                this.$router.push('/')
+            }
+        }
+    },
 }
 </script>
 

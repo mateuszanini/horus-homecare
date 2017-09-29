@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-toolbar dark class="teal elevation-0" extended>
-        </v-toolbar>        
+        </v-toolbar>
         <v-layout row>
             <v-flex xs10 offset-xs1 sm6 offset-sm3 lg4 offset-lg4>
                 <v-card class="card--flex-toolbar white">
@@ -54,9 +54,6 @@ export default {
         }
     },
     computed: {
-        user() {
-            return this.$store.getters.user
-        },
         error() {
             return this.$store.getters.error
         },
@@ -65,11 +62,6 @@ export default {
         }
     },
     watch: {
-        user(value) {
-            if (value !== null && value !== undefined) {
-                this.$router.push('/home')
-            }
-        }
     },
 }
 </script>

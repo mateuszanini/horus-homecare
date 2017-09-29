@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             drawer: null,
-            user: JSON.parse(localStorage.getItem('user')),
+            user: this.$store.getters.user,
             items: [
                 { title: 'Home', icon: 'dashboard' },
                 { title: 'About', icon: 'question_answer' }
@@ -59,9 +59,6 @@ export default {
         }
     },
     computed: {
-        userIsAuthenticated() {
-            return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-        }
     },
     methods: {
         onLogout() {
