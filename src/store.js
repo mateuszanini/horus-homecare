@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
   state: {
     user: JSON.parse(localStorage.getItem('user')),
     loading: false,
-    error: null
+    error: null,
+    online: true
   },
 
   mutations: {
@@ -24,6 +25,9 @@ export const store = new Vuex.Store({
     },
     clearError(state) {
       state.error = null
+    },
+    setOnline(state, payload) {
+      state.online = payload
     }
   },
 
@@ -62,13 +66,6 @@ export const store = new Vuex.Store({
           }
         )
     },
-    // autoSignIn({
-    //   commit
-    // }, payload) {
-    //   commit('setUser', {
-    //     user
-    //   })
-    // },
     logout({
       commit
     }) {
@@ -81,6 +78,13 @@ export const store = new Vuex.Store({
       commit
     }) {
       commit('clearError')
+    },
+    isOnline({
+      commit
+    }) {
+      const status = navigator.onLine ? true : false;
+      commit('setOnline', status)
+      return status
     }
   },
   getters: {
@@ -92,6 +96,9 @@ export const store = new Vuex.Store({
     },
     error(state) {
       return state.error
+    },
+    online(state) {
+      return state.online
     }
   }
 })
