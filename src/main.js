@@ -46,6 +46,8 @@ new Vue({
         }
       })
 
+    this.$store.dispatch('isOnline')
+
     var app = document.createElement('div')
     app.setAttribute('data-app', true)
     document.body.appendChild(app)

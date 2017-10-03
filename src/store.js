@@ -9,7 +9,7 @@ export const store = new Vuex.Store({
     user: JSON.parse(localStorage.getItem('user')),
     loading: false,
     error: null,
-    online: true
+    online: null
   },
 
   mutations: {
