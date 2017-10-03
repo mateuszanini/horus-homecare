@@ -12,7 +12,10 @@
                         <div class="text-xs-center my-3">
                             <h4 class="teal--text">{{ appName }}</h4>
                         </div>
-                        <botao-login :botao="botoesLogin"></botao-login>
+                        <botao-login :botao="botoesLogin" v-bind:disabled="!online"></botao-login>
+                        <div v-if="online === false">
+                            <snackbar :context="'error'" :text="'Você está offline e não será possível realizar o login.'"></snackbar>
+                        </div>
                     </v-card-text>
                 </v-card>
                 <div class="text-xs-center grey--text text--lighten-1 mt-3">
@@ -29,11 +32,13 @@
 <script>
 import BotaoLogin from '../../components/shared/botao/BotaoLogin.vue'
 import TelaLoading from '../../components/shared/loading/TelaLoading.vue'
+import Snackbar from '../../components/shared/snackbar/Snackbar.vue'
 
 export default {
     components: {
         'botao-login': BotaoLogin,
-        'tela-loading': TelaLoading
+        'tela-loading': TelaLoading,
+        'snackbar': Snackbar
     },
     data() {
         return {
@@ -50,7 +55,8 @@ export default {
                 //     icone: 'fa-facebook-official',
                 //     cor: 'blue darken-3',
                 // }
-            ]
+            ],
+            online: this.$store.getters.online
         }
     },
     computed: {
