@@ -53,8 +53,9 @@
                                 <v-btn class="teal--text darken-1" flat="flat" @click.native="logout(true)">Sim</v-btn>
                             </v-card-actions>
                         </v-card>
-                    </v-dialog>
-                </v-layout>
+                    </v-dialog> 
+                    <bottom-bar></bottom-bar>                   
+                </v-layout>                
             </v-container>
         </main>
     </v-app>
@@ -63,6 +64,7 @@
 
 <script>
 import * as firebase from 'firebase'
+import BottomBar from '../../components/shared/bottomBar/BottomBar.vue'
 
 export default {
     data() {
@@ -77,6 +79,9 @@ export default {
             right: null,
             dialogLogout: false
         }
+    },
+    components: {
+        'bottom-bar': BottomBar
     },
     computed: {
     },
