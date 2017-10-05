@@ -18,6 +18,14 @@
             </v-list>
             <v-list class="pt-0" dense>
                 <v-divider></v-divider>
+                <v-list-tile @click.native="">
+                    <v-list-tile-action>
+                        <v-icon>fa-bell</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Lembretes</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
                 <v-list-tile @click.native="onLogout()">
                     <v-list-tile-action>
                         <v-icon>fa-power-off</v-icon>
@@ -33,7 +41,11 @@
             <v-toolbar-title>Horus Homecare</v-toolbar-title>
         </v-toolbar>
         <main>
-            <v-container fluid>
+            <v-container fluid grid-list-sm>
+                <v-layout row justify-center>                    
+                    <bottom-bar></bottom-bar>
+                    <router-view></router-view>
+                </v-layout>
                 <v-layout row justify-center>
                     <v-dialog v-model="dialogLogout" persistent>
                         <v-card>
@@ -53,9 +65,8 @@
                                 <v-btn class="teal--text darken-1" flat="flat" @click.native="logout(true)">Sim</v-btn>
                             </v-card-actions>
                         </v-card>
-                    </v-dialog> 
-                    <bottom-bar></bottom-bar>                   
-                </v-layout>                
+                    </v-dialog>
+                </v-layout>
             </v-container>
         </main>
     </v-app>

@@ -40,7 +40,7 @@ new Vue({
     this.$store.dispatch('userIsAuthenticated').then(
       result => {
         if (result) {
-          this.$router.push('/home')
+          this.$router.push('/home/beats')
         } else {
           this.$router.push('/')
         }
