@@ -20,7 +20,7 @@
                 <v-layout row>
                     <v-flex xs12 sm4 offset-sm4>
                         <v-dialog persistent v-model="modal" lazy full-width>
-                            <v-text-field slot="activator" label="Data" v-model="date" prepend-icon="event" readonly></v-text-field>
+                            <v-text-field slot="activator" label="Data" v-model="date" prepend-icon="fa fa-calendar" readonly></v-text-field>
                             <v-date-picker v-model="date" scrollable actions locale="pt-BR">
                                 <template scope="{ save, cancel }">
                                     <v-card-actions>
@@ -36,7 +36,7 @@
                 <v-layout row>
                     <v-flex xs12 sm4 offset-sm4>
                         <v-dialog persistent v-model="modal2" lazy full-width>
-                            <v-text-field slot="activator" label="Horário" v-model="time" prepend-icon="access_time" readonly></v-text-field>
+                            <v-text-field slot="activator" label="Horário" v-model="time" prepend-icon="fa fa-clock-o" readonly></v-text-field>
                             <v-time-picker v-model="time" scrollable actions format="24hr">
                                 <template scope="{ save, cancel }">
                                     <v-card-actions>
@@ -56,10 +56,15 @@
                 </v-layout>
             </v-container>
         </v-card>
+        <v-layout row v-if="loading">
+            <tela-loading></tela-loading>
+        </v-layout>
     </v-app>
 </template>
 
 <script>
+import TelaLoading from '../loading/TelaLoading.vue'
+
 export default {
     data() {
         return {
@@ -75,12 +80,26 @@ export default {
             this.$router.push('/home/beats')
         },
         saveBeats() {
+            this.$store.commit('setLoading', true)
+            this.$store.dispatch('isOnline')
+
             this.$store.commit('setNewBeatDate', this.date)
             this.$store.commit('setNewBeatTime', this.time)
             this.$store.commit('setNewBeatBeats', this.beats)
+
             this.$store.dispatch('saveBeats')
+
+            this.$router.push('/home/beats')
         }
-    }
+    },
+    components: {
+        'tela-loading': TelaLoading
+    },
+    computed: {
+        loading() {
+            return this.$store.getters.loading
+        }
+    },
 }
 </script>
 

@@ -10,9 +10,11 @@ export const store = new Vuex.Store({
     loading: false,
     error: null,
     online: null,
+    saved: null,
     newBeatDate: null,
     newBeatTime: null,
-    newBeatBeats: null
+    newBeatBeats: null,
+    offlineBeats: localStorage.getItem('offlineBeats')
   },
 
   mutations: {
@@ -29,17 +31,26 @@ export const store = new Vuex.Store({
     clearError(state) {
       state.error = null
     },
+    setSaved(state, payload) {
+      state.saved = payload
+    },
+    clearSaved(state) {
+      state.saved = null
+    },
     setOnline(state, payload) {
       state.online = payload
-    }, 
-    setNewBeatDate(state, payload){
-      state.newBeatDate = payload 
     },
-    setNewBeatTime(state, payload){
-      state.newBeatTime = payload 
+    setNewBeatDate(state, payload) {
+      state.newBeatDate = payload
     },
-    setNewBeatBeats(state, payload){
-      state.newBeatBeats = payload 
+    setNewBeatTime(state, payload) {
+      state.newBeatTime = payload
+    },
+    setNewBeatBeats(state, payload) {
+      state.newBeatBeats = payload
+    },
+    setOfflineBeats(state, payload) {
+      state.offlineBeats.push(payload)
     }
   },
 
@@ -86,11 +97,6 @@ export const store = new Vuex.Store({
       commit('setUser', null)
       commit('setLoading', false)
     },
-    clearError({
-      commit
-    }) {
-      commit('clearError')
-    },
     isOnline({
       commit
     }) {
@@ -98,10 +104,74 @@ export const store = new Vuex.Store({
       commit('setOnline', status)
       return status
     },
-    saveBeats({getters}){
-      console.log(getters.newBeatDate)
-      console.log(getters.newBeatTime)
-      console.log(getters.newBeatBeats)
+    saveBeats({
+      getters,
+      commit
+    }) {
+      const uid = getters.user.uid;
+      const date = getters.newBeatDate;
+      const time = getters.newBeatTime;
+      const beats = getters.newBeatBeats;
+
+      const newBeatKey = firebase.database().ref().child('beats/' + uid).push().key;
+
+      if (!getters.online) {
+        firebase.database().ref('beats/' + uid + '/' + newBeatKey).set({
+          date: date,
+          time: time,
+          beats: beats
+        });
+      } else {
+        var localBeats = localStorage.getItem("offlineBeats");
+        localBeats = JSON.parse(localBeats);
+        if (localBeats === null || localBeats === undefined) {
+          localBeats = [];
+        }
+
+        var newBeat = {
+          date: date,
+          time: time,
+          beats: beats
+        };
+
+        localBeats.push({
+          date: date,
+          time: time,
+          beats: beats
+        });
+        localStorage.setItem("offlineBeats", JSON.stringify(localBeats));
+
+        console.log(localStorage.getItem('offlineBeats'));
+    
+        // var beatsJson = [];
+        // beatsJson.push({
+        //   date: date,
+        //   time: time,
+        //   beats: beats
+        // })
+        // commit('setOfflineBeats', beatsJson)        
+        // console.log(getters.offlineBeats);
+        // console.log(JSON.stringify(beatsJson))
+        // return
+        // if (localStorage.getItem('offlineBeats')) {
+        //   localStorage.setItem('offlineBeats', localStorage.getItem('offlineBeats') + "," + beatsJson)
+        // } else {
+        //   localStorage.setItem('offlineBeats', "[" + beatsJson + "]")
+        // }
+
+        // console.log(JSON.parse(localStorage.getItem('offlineBeats')))
+
+        // localStorage.setItem('user', JSON.stringify(payload))
+        // state.user = JSON.parse(localStorage.getItem('user'))
+      }
+
+      commit('setSaved', true)
+
+      commit('setNewBeatDate', null)
+      commit('setNewBeatTime', null)
+      commit('setNewBeatBeats', null)
+
+      commit('setLoading', false)
     }
   },
   getters: {
@@ -117,14 +187,20 @@ export const store = new Vuex.Store({
     online(state) {
       return state.online
     },
-    newBeatDate(state){
+    saved(state) {
+      return state.saved
+    },
+    newBeatDate(state) {
       return state.newBeatDate
     },
-    newBeatTime(state){
+    newBeatTime(state) {
       return state.newBeatTime
     },
-    newBeatBeats(state){
+    newBeatBeats(state) {
       return state.newBeatBeats
+    },
+    getOfflineBeats(state) {
+      return state.offlineBeats
     }
   }
 })
