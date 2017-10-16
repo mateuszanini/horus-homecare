@@ -9,7 +9,10 @@ export const store = new Vuex.Store({
     user: JSON.parse(localStorage.getItem('user')),
     loading: false,
     error: null,
-    online: null
+    online: null,
+    newBeatDate: null,
+    newBeatTime: null,
+    newBeatBeats: null
   },
 
   mutations: {
@@ -28,6 +31,15 @@ export const store = new Vuex.Store({
     },
     setOnline(state, payload) {
       state.online = payload
+    }, 
+    setNewBeatDate(state, payload){
+      state.newBeatDate = payload 
+    },
+    setNewBeatTime(state, payload){
+      state.newBeatTime = payload 
+    },
+    setNewBeatBeats(state, payload){
+      state.newBeatBeats = payload 
     }
   },
 
@@ -85,6 +97,11 @@ export const store = new Vuex.Store({
       const status = navigator.onLine ? true : false;
       commit('setOnline', status)
       return status
+    },
+    saveBeats({getters}){
+      console.log(getters.newBeatDate)
+      console.log(getters.newBeatTime)
+      console.log(getters.newBeatBeats)
     }
   },
   getters: {
@@ -99,6 +116,15 @@ export const store = new Vuex.Store({
     },
     online(state) {
       return state.online
+    },
+    newBeatDate(state){
+      return state.newBeatDate
+    },
+    newBeatTime(state){
+      return state.newBeatTime
+    },
+    newBeatBeats(state){
+      return state.newBeatBeats
     }
   }
 })
