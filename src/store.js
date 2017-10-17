@@ -125,7 +125,7 @@ export const store = new Vuex.Store({
 
       const newBeatKey = firebase.database().ref().child('beats/' + uid).push().key;
 
-      if (!getters.online) {
+      if (getters.online) {
         firebase.database().ref('beats/' + uid + '/' + newBeatKey).set(newBeat);
       } else {
         commit('setOfflineBeats', newBeat)
