@@ -14,7 +14,7 @@ export const store = new Vuex.Store({
     newBeatDate: null,
     newBeatTime: null,
     newBeatBeats: null,
-    offlineBeats: localStorage.getItem('offlineBeats')
+    offlineBeats: JSON.parse(localStorage.getItem('offlineBeats'))
   },
 
   mutations: {
@@ -50,7 +50,14 @@ export const store = new Vuex.Store({
       state.newBeatBeats = payload
     },
     setOfflineBeats(state, payload) {
-      state.offlineBeats.push(payload)
+      var localBeats = localStorage.getItem("offlineBeats");
+      localBeats = JSON.parse(localBeats);
+      if (localBeats === null || localBeats === undefined) {
+        localBeats = [];
+      }
+      localBeats.push(payload);
+      localStorage.setItem("offlineBeats", JSON.stringify(localBeats));
+      state.offlineBeats = JSON.parse(localStorage.getItem('offlineBeats'))
     }
   },
 
@@ -109,60 +116,19 @@ export const store = new Vuex.Store({
       commit
     }) {
       const uid = getters.user.uid;
-      const date = getters.newBeatDate;
-      const time = getters.newBeatTime;
-      const beats = getters.newBeatBeats;
+
+      const newBeat = {
+        date: getters.newBeatDate,
+        time: getters.newBeatTime,
+        beats: getters.newBeatBeats
+      };
 
       const newBeatKey = firebase.database().ref().child('beats/' + uid).push().key;
 
       if (!getters.online) {
-        firebase.database().ref('beats/' + uid + '/' + newBeatKey).set({
-          date: date,
-          time: time,
-          beats: beats
-        });
+        firebase.database().ref('beats/' + uid + '/' + newBeatKey).set(newBeat);
       } else {
-        var localBeats = localStorage.getItem("offlineBeats");
-        localBeats = JSON.parse(localBeats);
-        if (localBeats === null || localBeats === undefined) {
-          localBeats = [];
-        }
-
-        var newBeat = {
-          date: date,
-          time: time,
-          beats: beats
-        };
-
-        localBeats.push({
-          date: date,
-          time: time,
-          beats: beats
-        });
-        localStorage.setItem("offlineBeats", JSON.stringify(localBeats));
-
-        console.log(localStorage.getItem('offlineBeats'));
-    
-        // var beatsJson = [];
-        // beatsJson.push({
-        //   date: date,
-        //   time: time,
-        //   beats: beats
-        // })
-        // commit('setOfflineBeats', beatsJson)        
-        // console.log(getters.offlineBeats);
-        // console.log(JSON.stringify(beatsJson))
-        // return
-        // if (localStorage.getItem('offlineBeats')) {
-        //   localStorage.setItem('offlineBeats', localStorage.getItem('offlineBeats') + "," + beatsJson)
-        // } else {
-        //   localStorage.setItem('offlineBeats', "[" + beatsJson + "]")
-        // }
-
-        // console.log(JSON.parse(localStorage.getItem('offlineBeats')))
-
-        // localStorage.setItem('user', JSON.stringify(payload))
-        // state.user = JSON.parse(localStorage.getItem('user'))
+        commit('setOfflineBeats', newBeat)
       }
 
       commit('setSaved', true)
@@ -172,6 +138,7 @@ export const store = new Vuex.Store({
       commit('setNewBeatBeats', null)
 
       commit('setLoading', false)
+      console.log(getters.getOfflineBeats)
     }
   },
   getters: {

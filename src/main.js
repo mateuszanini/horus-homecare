@@ -28,6 +28,15 @@ new Vue({
     App
   },
   created() {
+    window.addEventListener('offline', function (e) {
+      console.log('offline');
+      this.$store.commit('setOnline', false)
+    });
+    window.addEventListener('online', function (e) {
+      console.log('online');
+      this.$store.commit('setOnline', true)
+    });
+
     firebase.initializeApp({
       apiKey: "AIzaSyBjFaCO0s-wcr34t-PN5pdMg5uPQ-Iqu4A",
       authDomain: "horus-homecare.firebaseapp.com",

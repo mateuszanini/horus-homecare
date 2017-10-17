@@ -55,8 +55,7 @@ export default {
                 //     icone: 'fa-facebook-official',
                 //     cor: 'blue darken-3',
                 // }
-            ],
-            online: this.$store.getters.online
+            ]
         }
     },
     computed: {
@@ -65,6 +64,9 @@ export default {
         },
         loading() {
             return this.$store.getters.loading
+        },
+        online(){
+            return this.$store.getters.online
         }
     },
     watch: {

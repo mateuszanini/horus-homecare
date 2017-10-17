@@ -18,7 +18,6 @@ import Snackbar from '../../components/shared/snackbar/Snackbar.vue'
 export default {
     data() {
         return {
-            online: this.$store.getters.online
         }
     },
     computed: {
@@ -26,6 +25,9 @@ export default {
             const saved = this.$store.getters.saved
             !this.$store.commit('clearSaved')
             return saved
+        },
+        online() {
+            return this.$store.getters.online
         }
     },
     methods: {

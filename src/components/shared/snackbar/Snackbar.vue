@@ -1,5 +1,5 @@
 <template>
-    <v-snackbar :timeout="timeout" :success="context === 'success'" :info="context === 'info'" :warning="context === 'warning'" :error="context === 'error'" :primary="context === 'primary'" :secondary="context === 'secondary'" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="snackbar">
+    <v-snackbar :timeout="timeout" top right :success="context === 'success'" :info="context === 'info'" :warning="context === 'warning'" :error="context === 'error'" :primary="context === 'primary'" :secondary="context === 'secondary'" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="snackbar">
         {{ text }}
         <v-btn dark flat @click.native="snackbar = false" class="white--text">Ok</v-btn>
     </v-snackbar>
@@ -11,7 +11,7 @@ export default {
         return {     
             snackbar: true,
             timeout: 4000,
-            mode: 'vertical'
+            mode: 'multi-line'
         }
     },
     props: {

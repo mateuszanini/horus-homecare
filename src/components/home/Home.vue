@@ -39,10 +39,17 @@
         <v-toolbar fixed class="teal" dark>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-title>Horus Homecare</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <div v-if="online === false">
+                <span class="fa-stack fa-2x">
+                    <i class="fa fa-wifi fa-stack-1x white--text"></i>
+                    <i class="fa fa-ban fa-stack-2x red--text text--lighten-2"></i>
+                </span>
+            </div>
         </v-toolbar>
         <main>
             <v-container fluid grid-list-sm>
-                <v-layout row justify-center>                    
+                <v-layout row justify-center>
                     <bottom-bar></bottom-bar>
                     <router-view></router-view>
                 </v-layout>
@@ -95,6 +102,9 @@ export default {
         'bottom-bar': BottomBar
     },
     computed: {
+        online() {
+            return this.$store.getters.online
+        }
     },
     methods: {
         onLogout() {
