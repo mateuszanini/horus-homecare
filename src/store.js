@@ -50,14 +50,18 @@ export const store = new Vuex.Store({
       state.newBeatBeats = payload
     },
     setOfflineBeats(state, payload) {
-      var localBeats = localStorage.getItem("offlineBeats");
-      localBeats = JSON.parse(localBeats);
-      if (localBeats === null || localBeats === undefined) {
-        localBeats = [];
+      if (payload == null) {
+        state.offlineBeats = payload
+      } else {
+        var localBeats = localStorage.getItem("offlineBeats");
+        localBeats = JSON.parse(localBeats);
+        if (localBeats === null || localBeats === undefined) {
+          localBeats = [];
+        }
+        localBeats.push(payload);
+        localStorage.setItem("offlineBeats", JSON.stringify(localBeats));
+        state.offlineBeats = JSON.parse(localStorage.getItem('offlineBeats'))
       }
-      localBeats.push(payload);
-      localStorage.setItem("offlineBeats", JSON.stringify(localBeats));
-      state.offlineBeats = JSON.parse(localStorage.getItem('offlineBeats'))
     }
   },
 
@@ -132,13 +136,33 @@ export const store = new Vuex.Store({
       window.setTimeout(function () {
         commit('setSaved', true)
         commit('setLoading', false)
-      }, 1000);      
+      }, 1000);
 
       commit('setNewBeatDate', null)
       commit('setNewBeatTime', null)
       commit('setNewBeatBeats', null)
-
-      console.log(getters.getOfflineBeats)
+    },
+    sincronizaDados({
+      getters,
+      commit
+    }) {
+      var sincronizar = JSON.parse(localStorage.getItem('offlineBeats'));
+      if (getters.online === true && sincronizar !== null && sincronizar !== undefined) {
+        for (var i = 0; i < sincronizar.length; i++) {
+          var obj = sincronizar[i];
+          // console.log("Indice: " + i + "\n Beats: " + obj["beats"] + "\n Date: " + obj["date"] + "\n Time: " + obj["time"])
+          const uid = getters.user.uid;
+          const newBeat = {
+            date: obj["date"],
+            time: obj["time"],
+            beats: obj["beats"]
+          };
+          const newBeatKey = firebase.database().ref().child('beats/' + uid).push().key;
+          firebase.database().ref('beats/' + uid + '/' + newBeatKey).set(newBeat);
+        }
+        localStorage.removeItem('offlineBeats')
+        commit('setOfflineBeats', null)
+      }
     }
   },
   getters: {

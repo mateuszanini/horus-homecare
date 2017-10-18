@@ -31,7 +31,8 @@ new Vue({
     const store = this.$store;
     var verificaConectividade = window.setInterval(function () {
       store.dispatch('isOnline')
-    }, 30000);
+      store.dispatch('sincronizaDados')
+    }, 10000);
     window.addEventListener('offline', function (e) {
       console.log('offline');
       store.dispatch('isOnline')
