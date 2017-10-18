@@ -9,11 +9,15 @@
         <div v-if="saved && !online">
             <snackbar :context="'info'" :text="'Dados salvos localmente. Serão sincronizados quando você estiver online!'"></snackbar>
         </div>
+        <v-layout row v-if="loading">
+            <tela-loading></tela-loading>
+        </v-layout>
     </v-app>
 </template>
 
 <script>
 import Snackbar from '../../components/shared/snackbar/Snackbar.vue'
+import TelaLoading from '../../components/shared/loading/TelaLoading.vue'
 
 export default {
     data() {
@@ -28,6 +32,9 @@ export default {
         },
         online() {
             return this.$store.getters.online
+        },
+        loading() {
+            return this.$store.getters.loading
         }
     },
     methods: {
@@ -36,7 +43,8 @@ export default {
         }
     },
     components: {
-        'snackbar': Snackbar
+        'snackbar': Snackbar,
+        'tela-loading': TelaLoading
     }
 }
 </script>

@@ -116,28 +116,28 @@ export const store = new Vuex.Store({
       commit
     }) {
       const uid = getters.user.uid;
-
       const newBeat = {
         date: getters.newBeatDate,
         time: getters.newBeatTime,
         beats: getters.newBeatBeats
       };
 
-      const newBeatKey = firebase.database().ref().child('beats/' + uid).push().key;
-
       if (getters.online) {
+        const newBeatKey = firebase.database().ref().child('beats/' + uid).push().key;
         firebase.database().ref('beats/' + uid + '/' + newBeatKey).set(newBeat);
       } else {
         commit('setOfflineBeats', newBeat)
       }
 
-      commit('setSaved', true)
+      window.setTimeout(function () {
+        commit('setSaved', true)
+        commit('setLoading', false)
+      }, 1000);      
 
       commit('setNewBeatDate', null)
       commit('setNewBeatTime', null)
       commit('setNewBeatBeats', null)
 
-      commit('setLoading', false)
       console.log(getters.getOfflineBeats)
     }
   },

@@ -90,6 +90,7 @@ export default {
             this.$store.dispatch('saveBeats')
 
             this.$router.push('/home/beats')
+
         }
     },
     components: {
@@ -99,7 +100,7 @@ export default {
         loading() {
             return this.$store.getters.loading
         }
-    },
+    }
 }
 </script>
 

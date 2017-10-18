@@ -28,13 +28,19 @@ new Vue({
     App
   },
   created() {
+    const store = this.$store;
+    var verificaConectividade = window.setInterval(function () {
+      store.dispatch('isOnline')
+    }, 30000);
     window.addEventListener('offline', function (e) {
       console.log('offline');
-      this.$store.commit('setOnline', false)
+      store.dispatch('isOnline')
+      // this.$store.commit('setOnline', false)
     });
     window.addEventListener('online', function (e) {
       console.log('online');
-      this.$store.commit('setOnline', true)
+      store.dispatch('isOnline')
+      // this.$store.commit('setOnline', true)
     });
 
     firebase.initializeApp({
