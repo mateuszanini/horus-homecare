@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
     error: null,
     online: null,
     saved: null,
+    sincronized: null,
     newBeatDate: null,
     newBeatTime: null,
     newBeatBeats: null,
@@ -36,6 +37,12 @@ export const store = new Vuex.Store({
     },
     clearSaved(state) {
       state.saved = null
+    },
+    setSincronized(state, payload) {
+      state.sincronized = payload
+    },
+    clearSincronized(state) {
+      state.sincronized = null
     },
     setOnline(state, payload) {
       state.online = payload
@@ -162,6 +169,7 @@ export const store = new Vuex.Store({
         }
         localStorage.removeItem('offlineBeats')
         commit('setOfflineBeats', null)
+        commit('setSincronized', true)
       }
     }
   },
@@ -180,6 +188,9 @@ export const store = new Vuex.Store({
     },
     saved(state) {
       return state.saved
+    },
+    sincronized(state) {
+      return state.sincronized
     },
     newBeatDate(state) {
       return state.newBeatDate

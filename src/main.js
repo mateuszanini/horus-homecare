@@ -32,14 +32,12 @@ new Vue({
     var verificaConectividade = window.setInterval(function () {
       store.dispatch('isOnline')
       store.dispatch('sincronizaDados')
-    }, 10000);
+    }, 15000);
     window.addEventListener('offline', function (e) {
-      console.log('offline');
       store.dispatch('isOnline')
       // this.$store.commit('setOnline', false)
     });
     window.addEventListener('online', function (e) {
-      console.log('online');
       store.dispatch('isOnline')
       // this.$store.commit('setOnline', true)
     });

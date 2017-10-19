@@ -9,6 +9,9 @@
         <div v-if="saved && !online">
             <snackbar :context="'info'" :text="'Dados salvos localmente. Serão sincronizados quando você estiver online!'"></snackbar>
         </div>
+        <div v-if="sincronized">
+            <snackbar :context="'success'" :text="'Sucesso! Dados locais foram sincronizados.'"></snackbar>
+        </div>
         <v-layout row v-if="loading">
             <tela-loading></tela-loading>
         </v-layout>
@@ -29,6 +32,11 @@ export default {
             const saved = this.$store.getters.saved
             !this.$store.commit('clearSaved')
             return saved
+        },
+        sincronized() {
+            const sincronized = this.$store.getters.sincronized
+            !this.$store.commit('clearSincronized')
+            return sincronized
         },
         online() {
             return this.$store.getters.online
