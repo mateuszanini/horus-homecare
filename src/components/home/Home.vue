@@ -18,14 +18,14 @@
             </v-list>
             <v-list class="pt-0" dense>
                 <v-divider></v-divider>
-                <v-list-tile @click.native="">
+                <!-- <v-list-tile @click.native="">
                     <v-list-tile-action>
                         <v-icon>fa-bell</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>Lembretes</v-list-tile-title>
                     </v-list-tile-content>
-                </v-list-tile>
+                </v-list-tile> -->
                 <v-list-tile @click.native="onLogout()">
                     <v-list-tile-action>
                         <v-icon>fa-power-off</v-icon>

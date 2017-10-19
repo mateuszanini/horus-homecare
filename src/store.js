@@ -15,7 +15,8 @@ export const store = new Vuex.Store({
     newBeatDate: null,
     newBeatTime: null,
     newBeatBeats: null,
-    offlineBeats: JSON.parse(localStorage.getItem('offlineBeats'))
+    offlineBeats: JSON.parse(localStorage.getItem('offlineBeats')),
+    savedBeats: JSON.parse(localStorage.getItem('savedBeats'))
   },
 
   mutations: {
@@ -60,8 +61,8 @@ export const store = new Vuex.Store({
       if (payload == null) {
         state.offlineBeats = payload
       } else {
-        var localBeats = localStorage.getItem("offlineBeats");
-        localBeats = JSON.parse(localBeats);
+        var localBeats = JSON.parse(localStorage.getItem("offlineBeats"));
+        // localBeats = JSON.parse(localBeats);
         if (localBeats === null || localBeats === undefined) {
           localBeats = [];
         }
@@ -69,6 +70,10 @@ export const store = new Vuex.Store({
         localStorage.setItem("offlineBeats", JSON.stringify(localBeats));
         state.offlineBeats = JSON.parse(localStorage.getItem('offlineBeats'))
       }
+    },
+    setSavedBeats(state, payload) {
+      localStorage.setItem("savedBeats", JSON.stringify(payload))
+      state.saveBeats = JSON.parse(localStorage.getItem('savedBeats'))
     }
   },
 
@@ -171,6 +176,20 @@ export const store = new Vuex.Store({
         commit('setOfflineBeats', null)
         commit('setSincronized', true)
       }
+    },
+    mostraDados({
+      getters,
+      commit
+    }) {
+      if (getters.online) {
+        const uid = getters.user.uid;
+        var ref = firebase.database().ref('beats/' + uid).limitToLast(10);
+        ref.on("value", function (snapshot) {
+          commit("setSavedBeats", snapshot.val())
+        }, function (error) {
+          console.log("Error: " + error.code);
+        });
+      }
     }
   },
   getters: {
@@ -203,6 +222,9 @@ export const store = new Vuex.Store({
     },
     getOfflineBeats(state) {
       return state.offlineBeats
+    },
+    getSavedBeats(state) {
+      return state.savedBeats
     }
   }
 })

@@ -61,6 +61,7 @@ new Vue({
       })
 
     this.$store.dispatch('isOnline')
+    this.$store.dispatch('mostraDados')
 
     var app = document.createElement('div')
     app.setAttribute('data-app', true)
