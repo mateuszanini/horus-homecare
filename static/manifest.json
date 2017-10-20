@@ -43,5 +43,6 @@
   "theme_color": "#00897b",
   "lang": "pt-BR",
   "orientation": "portrait",
-  "dir": "ltr"
+  "dir": "ltr",
+  "gcm_sender_id": "114846124020"
 }
