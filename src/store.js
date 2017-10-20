@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
+import {
+  GoogleCharts
+} from 'google-charts'
 
 Vue.use(Vuex)
 
@@ -118,6 +121,8 @@ export const store = new Vuex.Store({
       commit('setLoading', true)
       firebase.auth().signOut()
       commit('setUser', null)
+      localStorage.setItem('offlineBeats', null)
+      localStorage.setItem('savedBeats', null)
       commit('setLoading', false)
     },
     isOnline({
@@ -183,12 +188,65 @@ export const store = new Vuex.Store({
     }) {
       if (getters.online) {
         const uid = getters.user.uid;
-        var ref = firebase.database().ref('beats/' + uid).limitToLast(10);
+        var ref = firebase.database().ref('beats/' + uid).limitToLast(7);
         ref.on("value", function (snapshot) {
           commit("setSavedBeats", snapshot.val())
         }, function (error) {
           console.log("Error: " + error.code);
         });
+      }
+
+      var savedBeats = JSON.parse(localStorage.getItem('savedBeats'));
+      if (savedBeats !== null && savedBeats !== undefined) {
+        var resultado = [];
+
+        function percorrer(obj) {
+          for (var propriedade in obj) {
+            if (obj.hasOwnProperty(propriedade)) {
+              if (typeof obj[propriedade] == "object") {
+                percorrer(obj[propriedade]);
+              } else {
+                resultado.push(obj[propriedade]);
+              }
+            }
+          }
+        }
+        percorrer(savedBeats);
+
+        var dataGrafico = [
+          ["Data", "Batimentos", {
+            role: 'style'
+          }, {
+            role: 'annotation'
+          }]
+        ];
+        for (var i = 0; i < resultado.length; i = i + 3) {
+          var data = resultado[i + 1].split("-");
+          var dataFormatada = data[2] + "/" + data[1] + "/" + data[0]
+          var batimentos = parseInt(resultado[i]);
+          dataGrafico.push([dataFormatada, batimentos, "#4db6ac", batimentos]);
+        }
+
+        GoogleCharts.load(drawChart);
+
+        function drawChart() {
+          const data = GoogleCharts.api.visualization.arrayToDataTable(dataGrafico);
+          var options = {
+            title: "Últimas medições de batimentos (bpm)",
+            bar: {
+              groupWidth: "50%"
+            },
+            height: 300,
+            legend: {
+              position: 'none'
+            },
+            vAxis: {
+              minValue: 0,
+            }
+          };
+          const grafico = new GoogleCharts.api.visualization.ColumnChart(document.getElementById('grafico'));
+          grafico.draw(data, options);
+        }
       }
     }
   },
