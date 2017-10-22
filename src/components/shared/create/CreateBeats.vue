@@ -36,22 +36,40 @@
                 <v-layout row>
                     <v-flex xs12 sm4 offset-sm4>
                         <v-dialog persistent v-model="modal2" lazy full-width>
-                            <v-text-field slot="activator" label="Horário" v-model="time" prepend-icon="fa fa-clock-o" readonly></v-text-field>
+                            <v-text-field 
+                            slot="activator" 
+                            label="Horário" 
+                            v-model="time" 
+                            prepend-icon="fa fa-clock-o"
+                            readonly>
+                            </v-text-field>
                             <v-time-picker v-model="time" scrollable actions format="24hr">
-                                <template scope="{ save, cancel }">
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn flat @click="cancel">Cancelar</v-btn>
-                                        <v-btn flat class="teal--text" @click="save">OK</v-btn>
-                                    </v-card-actions>
-                                </template>
-                            </v-time-picker>
-                        </v-dialog>
-                    </v-flex>
+                            <template scope="{ save, cancel }">
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn flat @click="cancel">Cancelar</v-btn>
+                                    <v-btn flat class="teal--text" @click="save">OK</v-btn>
+                                </v-card-actions>
+                            </template>
+                        </v-time-picker>
+                    </v-dialog>
+                </v-flex>
                 </v-layout>
                 <v-layout row>
                     <v-flex xs12 sm4 offset-sm4>
-                        <v-text-field v-model="beats" label="Batimentos" prepend-icon="fa icon fa-heartbeat" suffix="bpm" color="teal"></v-text-field>
+                        <v-text-field 
+                        type="number"
+                        min=0
+                        max=999
+                        step=1
+                        maxlength=3
+                        v-model="beats" 
+                        label="Batimentos" 
+                        prepend-icon="fa icon fa-heartbeat" 
+                        suffix="bpm" 
+                        color="teal" 
+                        hint="Batimentos registrados no momento da medição">
+                        </v-text-field>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -63,49 +81,72 @@
 </template>
 
 <script>
-import TelaLoading from '../loading/TelaLoading.vue'
+import TelaLoading from "../loading/TelaLoading.vue";
 
 export default {
-    data() {
-        return {
-            date: null,
-            modal: false,
-            time: null,
-            modal2: false,
-            beats: null
-        }
+  data() {
+    return {
+      date: null,
+      modal: false,
+      time: null,
+      modal2: false,
+      beats: null
+    };
+  },
+  methods: {
+    back() {
+      this.$router.push("/home/beats");
     },
-    methods: {
-        back() {
-            this.$router.push('/home/beats')
-        },
-        saveBeats() {
-            this.$store.commit('setLoading', true)
-            this.$store.dispatch('isOnline')
+    saveBeats() {
+      this.$store.commit("setLoading", true);
+      this.$store.dispatch("isOnline");
 
-            this.$store.commit('setNewBeatDate', this.date)
-            this.$store.commit('setNewBeatTime', this.time)
-            this.$store.commit('setNewBeatBeats', this.beats)
+      var data = new Date();
 
-            this.$store.dispatch('saveBeats')
+      if (this.date == null || this.date == undefined || this.date == "") {
+        var dia = data.getDate();
+        if (dia.toString().length == 1) dia = "0" + dia;
+        var mes = data.getMonth() + 1;
+        if (mes.toString().length == 1) mes = "0" + mes;
+        var ano = data.getFullYear();
 
-            this.$router.push('/home/beats')
+        this.date = ano + "-" + mes + "-" + dia;
+        this.$store.commit("setNewBeatDate", this.date);
+      } else {
+        this.$store.commit("setNewBeatDate", this.date);
+      }
 
-        }
-    },
-    components: {
-        'tela-loading': TelaLoading
-    },
-    computed: {
-        loading() {
-            return this.$store.getters.loading
-        }
+      if (this.time == null || this.time == undefined || this.time == "") {
+        this.time = data.getHours() + ":" + data.getMinutes();
+        this.$store.commit("setNewBeatTime", this.time);
+      } else {
+        this.$store.commit("setNewBeatTime", this.time);
+      }
+
+      if (this.beats == null || this.beats == undefined || this.beats == "") {
+        this.beats = "70";
+        this.$store.commit("setNewBeatBeats", this.beats);
+      } else {
+        this.$store.commit("setNewBeatBeats", this.beats);
+      }
+
+      this.$store.dispatch("saveBeats");
+      this.$router.push("/home/beats");
     }
-}
+  },
+  components: {
+    "tela-loading": TelaLoading
+  },
+  computed: {
+    loading() {
+      return this.$store.getters.loading;
+    }
+  }
+};
 </script>
 
 <style scopped>
 .picker__title {
-    background-color: #009688 !important;
+  background-color: #009688 !important;
 }
 </style>
