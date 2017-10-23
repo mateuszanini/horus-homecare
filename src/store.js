@@ -106,6 +106,7 @@ export const store = new Vuex.Store({
               given_name: result.additionalUserInfo.profile.given_name
             }
             commit('setUser', newUser)
+            store.dispatch('mostraDados')        
           })
         .catch(
           error => {

@@ -55,13 +55,13 @@ new Vue({
       result => {
         if (result) {
           this.$router.push('/home/beats')
+          this.$store.dispatch('mostraDados')
         } else {
           this.$router.push('/')
         }
       })
 
     this.$store.dispatch('isOnline')
-    this.$store.dispatch('mostraDados')
 
     var app = document.createElement('div');
     app.setAttribute('data-app', true);

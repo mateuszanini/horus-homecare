@@ -6,7 +6,6 @@
         <div v-else>
             <v-layout row wrap>
                 <v-flex xs12 sm6>
-                    {{atualizaDados()}}
                     <div id="grafico"></div>
                 </v-flex>
                 <v-flex xs12 sm6>
