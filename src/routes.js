@@ -15,8 +15,7 @@ export const routes = new VueRouter({
       component: Login,
       titulo: 'Login',
       icone: 'fa-lock'
-    },
-    {
+    },{
       path: '/home/',
       component: Home,
       titulo: 'Home',
@@ -24,18 +23,14 @@ export const routes = new VueRouter({
       children: [{
           path: 'beats',
           component: Beats
-        },
-        {
+        },{
           path: 'pressure',
           component: Pressure
-        },
-        {
+        },{
           path: 'glucose',
           component: Glucose
-        }
-      ]
-    }, 
-    {
+        }]
+    },{
       path: '/create/beats',
       component: CreateBeats
     }
